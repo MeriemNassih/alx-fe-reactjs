@@ -1,9 +1,7 @@
 import { createContext, useContext } from 'react';
 
-// Création du contexte
 export const UserContext = createContext();
 
-// Provider pour gérer l'état utilisateur
 export const UserProvider = ({ children }) => {
   const userData = { name: 'Jane Doe', email: 'jane.doe@example.com' };
 
@@ -13,6 +11,7 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+export default UserProvider;
+export { UserContext };
 
-// Hook personnalisé pour accéder au contexte
 export const useUser = () => useContext(UserContext);
