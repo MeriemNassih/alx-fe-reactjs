@@ -8,7 +8,7 @@ import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import UserProfile from './components/UserProfile';
 import Counter from './components/Counter';
-import { UserContext } from './components/UserContext';  
+import { UserProvider } from './components/UserContext';  
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,16 +20,16 @@ function App() {
   };
 
   return (
-    <UserContext.Provider value={userData}>
-      <div>
-        <WelcomeMessage />
-        <Header />
-        <MainContent />
-        <UserProfile /> 
-        <Counter />
-        <Footer />
-      </div>
-    </UserContext.Provider>
+    <UserProvider> 
+    <div>
+      <WelcomeMessage />
+      <Header />
+      <MainContent />
+      <UserProfile name="Alice" age="25" bio="Loves hiking and photography" />
+      <Counter />
+      <Footer />
+    </div>
+  </UserProvider>
   );
 }
 
