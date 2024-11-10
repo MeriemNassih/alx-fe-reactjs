@@ -20,7 +20,7 @@ function App() {
   };
 
   return (
-    <UserProvider> 
+    <UserProvider value={userData}> 
     <div>
       <WelcomeMessage />
       <Header />
