@@ -8,7 +8,7 @@ import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import UserProfile from './components/UserProfile';
 import Counter from './components/Counter';
-import { UserProvider } from './components/UserContext';  
+import { UserContext } from './components/UserContext';  
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,7 +20,7 @@ function App() {
   };
 
   return (
-    <UserProvider value={userData}> 
+    <UserContext.Provider value={userData}> 
     <div>
       <WelcomeMessage />
       <Header />
@@ -29,7 +29,7 @@ function App() {
       <Counter />
       <Footer />
     </div>
-  </UserProvider>
+  </UserContext.Provider>
   );
 }
 
