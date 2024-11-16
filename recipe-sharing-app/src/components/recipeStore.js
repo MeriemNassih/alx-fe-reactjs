@@ -14,14 +14,17 @@ const useRecipeStore = create((set) => ({
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase()) 
       ),
     })),
-    favorites: [],  // Liste des recettes favorites
+  
+  favorites: [],  // Liste des recettes favorites
   addFavorite: (recipeId) => set(state => ({
     favorites: [...state.favorites, recipeId]
   })),
   removeFavorite: (recipeId) => set(state => ({
     favorites: state.favorites.filter(id => id !== recipeId)
   })),
-  recommendations: [],  // Liste des recommandations
+
+  // Liste des recommandations
+  recommendations: [],  
   generateRecommendations: () => set(state => {
     // Génération simple de recommandations basée sur les favoris
     const recommended = state.recipes.filter(recipe =>
@@ -29,6 +32,23 @@ const useRecipeStore = create((set) => ({
     );
     return { recommendations: recommended };
   }),
+
+  // Fonction pour ajouter une recette
+  addRecipe: (recipe) => set(state => ({
+    recipes: [...state.recipes, recipe],
+  })),
+
+  // Fonction pour mettre à jour une recette
+  updateRecipe: (updatedRecipe) => set(state => ({
+    recipes: state.recipes.map(recipe =>
+      recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+    ),
+  })),
+
+  // Fonction pour supprimer une recette
+  deleteRecipe: (recipeId) => set(state => ({
+    recipes: state.recipes.filter(recipe => recipe.id !== recipeId)
+  })),
 }));
 
 export { useRecipeStore };
