@@ -13,7 +13,7 @@ const fetchPosts = async () => {
 
 const PostsComponent = () => {
   // Utilisation de useQuery avec les options de mise en cache
-  const { data, error, isLoading, isFetching, refetch } = useQuery('posts', fetchPosts, {
+  const { data, error, isLoading, isFetching, refetch, isError } = useQuery('posts', fetchPosts, {
     staleTime: 60000, // Données considérées comme fraîches pendant 1 minute (60 000 ms)
     keepPreviousData: true, // Garder les données précédentes pendant que les nouvelles données sont récupérées
   });
@@ -22,7 +22,8 @@ const PostsComponent = () => {
     return <p>Loading...</p>;
   }
 
-  if (error) {
+  // Vérifier si une erreur est survenue
+  if (isError) {
     return <p>Error: {error.message}</p>;
   }
 
