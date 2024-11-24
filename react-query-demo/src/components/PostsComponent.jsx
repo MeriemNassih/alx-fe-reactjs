@@ -1,42 +1,46 @@
-// PostsComponent.js
-
+// src/components/PostsComponent.jsx
 import React from 'react';
 import { useQuery } from 'react-query';
 
+// Fonction pour récupérer les posts depuis l'API
 const fetchPosts = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-  if (!response.ok) {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  if (!res.ok) {
     throw new Error('Network response was not ok');
   }
-  return response.json();
+  return res.json();
 };
 
-function PostsComponent() {
-  const { data, error, isLoading, isError, isFetching, refetch } = useQuery(
-    'posts', // unique key for the query
-    fetchPosts, // fetch function
-    {
-      cacheTime: 1000 * 60 * 5, // Cache the data for 5 minutes
-      refetchOnWindowFocus: false, // Avoid refetching when window is focused
-    }
-  );
+const PostsComponent = () => {
+  // Utilisation de useQuery avec les options de mise en cache
+  const { data, error, isLoading, isFetching, refetch } = useQuery('posts', fetchPosts, {
+    staleTime: 60000, // Données considérées comme fraîches pendant 1 minute (60 000 ms)
+    keepPreviousData: true, // Garder les données précédentes pendant que les nouvelles données sont récupérées
+  });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error: {error.message}</div>;
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
 
   return (
     <div>
-      <h1>Posts</h1>
-      <button onClick={refetch} disabled={isFetching}>
-        {isFetching ? 'Refetching...' : 'Refetch Data'}
-      </button>
+      <h2>Posts</h2>
+      <button onClick={refetch}>Refetch Posts</button>
+      {isFetching && <p>Updating...</p>}
       <ul>
-        {data.map((post) => (
-          <li key={post.id}>{post.title}</li>
+        {data.map(post => (
+          <li key={post.id}>
+            <h3>{post.title}</h3>
+            <p>{post.body}</p>
+          </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default PostsComponent;
