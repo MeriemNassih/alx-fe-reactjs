@@ -5,7 +5,7 @@ import Home from './Home';
 import Profile from './components/Profile';
 import UserProfile from './UserProfile';
 import NotFound from './NotFound';
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute'; // Importer le composant ProtectedRoute
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Simuler l'authentification
