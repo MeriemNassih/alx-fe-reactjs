@@ -1,48 +1,31 @@
 import React, { useState } from "react";
 
 const RegistrationForm = () => {
-  // État pour les données du formulaire
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  // État pour gérer les erreurs
-  const [errors, setErrors] = useState({});
-
-  // Gestion des changements dans les champs du formulaire
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  // Validation des champs
-  const validate = () => {
-    const { username, email, password } = formData;
-    const newErrors = {};
-
-    if (!username) {
-      newErrors.username = "Username is required.";
-    }
-    if (!email) {
-      newErrors.email = "Email is required.";
-    }
-    if (!password) {
-      newErrors.password = "Password is required.";
-    }
-
-    setErrors(newErrors);
-    return newErrors;
-  };
+  // État pour gérer les valeurs des champs
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   // Gestion de la soumission du formulaire
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Form submitted successfully:", formData);
+
+    if (!username) {
+      alert("Username is required");
+      return;
     }
+
+    if (!email) {
+      alert("Email is required");
+      return;
+    }
+
+    if (!password) {
+      alert("Password is required");
+      return;
+    }
+
+    console.log("Form submitted:", { username, email, password });
   };
 
   return (
@@ -53,10 +36,9 @@ const RegistrationForm = () => {
         <input
           type="text"
           name="username"
-          value={formData.username} // Correction ici
-          onChange={handleChange}
+          value={username} // Correction ici
+          onChange={(e) => setUsername(e.target.value)} // Mise à jour de l'état
         />
-        {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
       </div>
 
       {/* Champ Email */}
@@ -65,10 +47,9 @@ const RegistrationForm = () => {
         <input
           type="email"
           name="email"
-          value={formData.email} // Correction ici
-          onChange={handleChange}
+          value={email} // Correction ici
+          onChange={(e) => setEmail(e.target.value)} // Mise à jour de l'état
         />
-        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
       </div>
 
       {/* Champ Password */}
@@ -77,10 +58,9 @@ const RegistrationForm = () => {
         <input
           type="password"
           name="password"
-          value={formData.password} // Correction ici
-          onChange={handleChange}
+          value={password} // Correction ici
+          onChange={(e) => setPassword(e.target.value)} // Mise à jour de l'état
         />
-        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
       </div>
 
       {/* Bouton de soumission */}
