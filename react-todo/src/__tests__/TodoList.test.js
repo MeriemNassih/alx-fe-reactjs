@@ -5,6 +5,7 @@ import TodoList from "../components/TodoList";
 describe("TodoList Component", () => {
   test("renders initial todos", () => {
     render(<TodoList />);
+    screen.debug();  // Print the current state of the DOM
     expect(screen.getByText("Learn React")).toBeInTheDocument();
     expect(screen.getByText("Build a project")).toBeInTheDocument();
   });
@@ -34,7 +35,7 @@ describe("TodoList Component", () => {
   test("deletes a todo", () => {
     render(<TodoList />);
     const todo = screen.getByText("Learn React");
-    const deleteButton = todo.nextSibling;
+    const deleteButton = screen.getByRole('button', { name: /Delete/i });
 
     fireEvent.click(deleteButton);
     expect(todo).not.toBeInTheDocument();
