@@ -22,6 +22,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+         {/* Route dynamique pour afficher un article de blog spécifique */}
+         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="profile/:username" element={<UserProfile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
