@@ -15,9 +15,10 @@ const RegistrationForm = () => {
   };
 
   const validate = () => {
-    const newErrors = {};
     const { email, password } = formData;
+    const newErrors = {};
 
+    // Validation des champs email et password
     if (!email) {
       newErrors.email = "Email is required.";
     }
@@ -26,6 +27,7 @@ const RegistrationForm = () => {
       newErrors.password = "Password is required.";
     }
 
+    setErrors(newErrors);
     return newErrors;
   };
 
@@ -33,9 +35,7 @@ const RegistrationForm = () => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Form submitted:", formData);
-    } else {
-      setErrors(validationErrors);
+      console.log("Form submitted successfully:", formData);
     }
   };
 
@@ -49,7 +49,7 @@ const RegistrationForm = () => {
           value={formData.username}
           onChange={handleChange}
         />
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
       </div>
 
       <div>
@@ -60,7 +60,7 @@ const RegistrationForm = () => {
           value={formData.email}
           onChange={handleChange}
         />
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
       </div>
 
       <div>
@@ -71,7 +71,7 @@ const RegistrationForm = () => {
           value={formData.password}
           onChange={handleChange}
         />
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
       </div>
 
       <button type="submit">Register</button>
