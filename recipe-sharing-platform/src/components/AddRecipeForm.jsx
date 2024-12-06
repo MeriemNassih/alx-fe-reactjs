@@ -7,33 +7,15 @@ function AddRecipeForm() {
     steps: "",
   });
 
-  const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
+    // Utilisation correcte de e.target.value
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const validateForm = () => {
-    let newErrors = {};
-    if (!formData.title.trim()) newErrors.title = "Le titre est obligatoire.";
-    if (!formData.ingredients.trim())
-      newErrors.ingredients = "Veuillez fournir au moins deux ingrédients.";
-    if (!formData.steps.trim())
-      newErrors.steps = "Veuillez décrire les étapes de préparation.";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log("Données du formulaire : ", formData);
-      // Vous pouvez ajouter une logique pour envoyer les données
-      alert("Recette ajoutée avec succès !");
-      setFormData({ title: "", ingredients: "", steps: "" }); // Réinitialisation
-    }
+    console.log("Form Data Submitted: ", formData);
   };
 
   return (
@@ -47,10 +29,7 @@ function AddRecipeForm() {
 
       {/* Champ Titre */}
       <div className="mb-4">
-        <label
-          htmlFor="title"
-          className="block text-gray-700 font-semibold mb-2"
-        >
+        <label htmlFor="title" className="block text-gray-700 font-semibold mb-2">
           Titre de la recette
         </label>
         <input
@@ -58,55 +37,40 @@ function AddRecipeForm() {
           id="title"
           name="title"
           value={formData.title}
-          onChange={handleChange}
+          onChange={handleChange} // handleChange utilise e.target.value ici
           className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {errors.title && (
-          <p className="text-red-500 text-sm mt-1">{errors.title}</p>
-        )}
       </div>
 
       {/* Champ Ingrédients */}
       <div className="mb-4">
-        <label
-          htmlFor="ingredients"
-          className="block text-gray-700 font-semibold mb-2"
-        >
+        <label htmlFor="ingredients" className="block text-gray-700 font-semibold mb-2">
           Ingrédients
         </label>
         <textarea
           id="ingredients"
           name="ingredients"
           value={formData.ingredients}
-          onChange={handleChange}
+          onChange={handleChange} // handleChange utilise e.target.value ici
           rows="4"
           placeholder="Séparez les ingrédients par une virgule"
           className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {errors.ingredients && (
-          <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
-        )}
       </div>
 
       {/* Champ Étapes */}
       <div className="mb-4">
-        <label
-          htmlFor="steps"
-          className="block text-gray-700 font-semibold mb-2"
-        >
+        <label htmlFor="steps" className="block text-gray-700 font-semibold mb-2">
           Étapes de préparation
         </label>
         <textarea
           id="steps"
           name="steps"
           value={formData.steps}
-          onChange={handleChange}
+          onChange={handleChange} // handleChange utilise e.target.value ici
           rows="4"
           className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {errors.steps && (
-          <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
-        )}
       </div>
 
       {/* Bouton Soumettre */}
