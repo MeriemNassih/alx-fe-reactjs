@@ -6,16 +6,55 @@ function AddRecipeForm() {
     ingredients: "",
     steps: "",
   });
+  
+  // Pour stocker les erreurs de validation
+  const [errors, setErrors] = useState({
+    title: "",
+    ingredients: "",
+    steps: "",
+  });
 
-  const handleChange = (e) => {
-    // Utilisation correcte de e.target.value
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  // Fonction de validation du formulaire
+  const validate = () => {
+    const newErrors = {};
+    
+    // Validation du titre
+    if (!formData.title) {
+      newErrors.title = "Le titre de la recette est requis.";
+    }
+    
+    // Validation des ingrédients
+    if (!formData.ingredients) {
+      newErrors.ingredients = "Les ingrédients sont requis.";
+    }
+    
+    // Validation des étapes
+    if (!formData.steps) {
+      newErrors.steps = "Les étapes de préparation sont requises.";
+    }
+    
+    // Mise à jour de l'état des erreurs
+    setErrors(newErrors);
+
+    // Si aucune erreur, retourne true pour soumettre
+    return Object.keys(newErrors).length === 0;
   };
 
+  // Fonction pour gérer la soumission du formulaire
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted: ", formData);
+    
+    if (validate()) {
+      // Si la validation réussit, afficher les données soumises
+      console.log("Form Data Submitted: ", formData);
+      // Vous pouvez ajouter ici la logique pour envoyer les données
+    }
+  };
+
+  // Fonction pour gérer les changements dans les champs du formulaire
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -37,9 +76,10 @@ function AddRecipeForm() {
           id="title"
           name="title"
           value={formData.title}
-          onChange={handleChange} // handleChange utilise e.target.value ici
-          className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onChange={handleChange}
+          className={`w-full border ${errors.title ? "border-red-500" : "border-gray-300"} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
+        {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
       </div>
 
       {/* Champ Ingrédients */}
@@ -51,11 +91,12 @@ function AddRecipeForm() {
           id="ingredients"
           name="ingredients"
           value={formData.ingredients}
-          onChange={handleChange} // handleChange utilise e.target.value ici
+          onChange={handleChange}
           rows="4"
           placeholder="Séparez les ingrédients par une virgule"
-          className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full border ${errors.ingredients ? "border-red-500" : "border-gray-300"} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
+        {errors.ingredients && <p className="text-red-500 text-sm">{errors.ingredients}</p>}
       </div>
 
       {/* Champ Étapes */}
@@ -67,10 +108,11 @@ function AddRecipeForm() {
           id="steps"
           name="steps"
           value={formData.steps}
-          onChange={handleChange} // handleChange utilise e.target.value ici
+          onChange={handleChange}
           rows="4"
-          className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full border ${errors.steps ? "border-red-500" : "border-gray-300"} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
+        {errors.steps && <p className="text-red-500 text-sm">{errors.steps}</p>}
       </div>
 
       {/* Bouton Soumettre */}
