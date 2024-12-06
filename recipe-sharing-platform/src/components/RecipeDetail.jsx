@@ -1,4 +1,23 @@
-return (
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import data from '../data.json'; // Importation du fichier JSON contenant les données
+
+export default function RecipeDetail() {
+  const { id } = useParams(); // Récupération de l'ID depuis l'URL
+  const [recipe, setRecipe] = useState(null); // État pour stocker la recette
+
+  // Utilisation de useEffect pour charger la recette en fonction de l'ID
+  useEffect(() => {
+    const selectedRecipe = data.find((item) => item.id === parseInt(id));
+    setRecipe(selectedRecipe);
+  }, [id]);
+
+  // Si la recette n'existe pas
+  if (!recipe) {
+    return <div className="text-center text-red-500">Recette introuvable</div>;
+  }
+
+  return (
     <div className="max-w-3xl mx-auto mt-10 p-5 shadow-lg rounded-lg bg-white">
       <img
         src={recipe.image}
@@ -21,4 +40,4 @@ return (
       </ol>
     </div>
   );
-  
+}
