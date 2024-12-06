@@ -1,60 +1,60 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function AddRecipeForm() {
+  // État pour stocker les valeurs du formulaire
   const [formData, setFormData] = useState({
-    title: "",
-    ingredients: "",
-    steps: "",
-  });
-  
-  // Pour stocker les erreurs de validation
-  const [errors, setErrors] = useState({
-    title: "",
-    ingredients: "",
-    steps: "",
+    title: '',
+    ingredients: '',
+    steps: '',
   });
 
-  // Fonction de validation du formulaire
+  // État pour gérer les erreurs de validation
+  const [errors, setErrors] = useState({
+    title: '',
+    ingredients: '',
+    steps: '',
+  });
+
+  // Validation du formulaire
   const validate = () => {
     const newErrors = {};
     
     // Validation du titre
     if (!formData.title) {
-      newErrors.title = "Le titre de la recette est requis.";
+      newErrors.title = 'Le titre est requis.';
     }
-    
+
     // Validation des ingrédients
     if (!formData.ingredients) {
-      newErrors.ingredients = "Les ingrédients sont requis.";
+      newErrors.ingredients = 'Les ingrédients sont requis.';
     }
-    
+
     // Validation des étapes
     if (!formData.steps) {
-      newErrors.steps = "Les étapes de préparation sont requises.";
+      newErrors.steps = 'Les étapes de préparation sont requises.';
     }
-    
-    // Mise à jour de l'état des erreurs
+
+    // Mise à jour des erreurs
     setErrors(newErrors);
 
-    // Si aucune erreur, retourne true pour soumettre
+    // Retourne vrai si aucun champ n'a d'erreur
     return Object.keys(newErrors).length === 0;
   };
 
-  // Fonction pour gérer la soumission du formulaire
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    if (validate()) {
-      // Si la validation réussit, afficher les données soumises
-      console.log("Form Data Submitted: ", formData);
-      // Vous pouvez ajouter ici la logique pour envoyer les données
-    }
+  // Gère le changement dans les champs du formulaire
+  const handleChange = (e) => {
+    const { name, value } = e.target;  // Utilisation de target.value
+    setFormData({ ...formData, [name]: value });
   };
 
-  // Fonction pour gérer les changements dans les champs du formulaire
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  // Gestion de la soumission du formulaire
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Empêche le rechargement de la page
+
+    if (validate()) {
+      // Si la validation réussit, vous pouvez traiter les données du formulaire
+      console.log('Données soumises:', formData);
+    }
   };
 
   return (
@@ -62,9 +62,7 @@ function AddRecipeForm() {
       onSubmit={handleSubmit}
       className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg"
     >
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
-        Ajouter une nouvelle recette
-      </h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Ajouter une recette</h2>
 
       {/* Champ Titre */}
       <div className="mb-4">
@@ -76,7 +74,7 @@ function AddRecipeForm() {
           id="title"
           name="title"
           value={formData.title}
-          onChange={handleChange}
+          onChange={handleChange}  // Utilisation de handleChange
           className={`w-full border ${errors.title ? "border-red-500" : "border-gray-300"} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
         {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
@@ -91,9 +89,8 @@ function AddRecipeForm() {
           id="ingredients"
           name="ingredients"
           value={formData.ingredients}
-          onChange={handleChange}
+          onChange={handleChange}  // Utilisation de handleChange
           rows="4"
-          placeholder="Séparez les ingrédients par une virgule"
           className={`w-full border ${errors.ingredients ? "border-red-500" : "border-gray-300"} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
         {errors.ingredients && <p className="text-red-500 text-sm">{errors.ingredients}</p>}
@@ -108,14 +105,14 @@ function AddRecipeForm() {
           id="steps"
           name="steps"
           value={formData.steps}
-          onChange={handleChange}
+          onChange={handleChange}  // Utilisation de handleChange
           rows="4"
           className={`w-full border ${errors.steps ? "border-red-500" : "border-gray-300"} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
         {errors.steps && <p className="text-red-500 text-sm">{errors.steps}</p>}
       </div>
 
-      {/* Bouton Soumettre */}
+      {/* Bouton de soumission */}
       <button
         type="submit"
         className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
