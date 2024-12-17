@@ -16,6 +16,9 @@ const Search = () => {
 
     try {
       const data = await fetchUserData({ username, location, minRepos });
+      if (data.items.length === 0) {
+        setError("Looks like we can't find the user");
+      }
       setResults(data.items); // Les résultats sont dans la propriété "items"
     } catch (err) {
       setError('Erreur lors de la recherche.');
@@ -52,16 +55,19 @@ const Search = () => {
       {/* Affichage des résultats */}
       {loading && <p>Chargement...</p>}
       {error && <p>{error}</p>}
-      {results.length > 0 && (
+      {results.length > 0 ? (
         <ul>
           {results.map((user) => (
             <li key={user.id}>
+              <img src={user.avatar_url} alt={`${user.login}'s avatar`} width={50} height={50} />
               <p>{user.login}</p>
               <p>{user.location || 'Localisation inconnue'}</p>
               <a href={user.html_url}>Profil GitHub</a>
             </li>
           ))}
         </ul>
+      ) : (
+        <p>Aucun utilisateur trouvé.</p>
       )}
     </div>
   );
