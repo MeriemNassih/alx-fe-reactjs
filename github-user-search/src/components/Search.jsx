@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchAdvancedSearch } from './services/githubService';
+import { fetchUserData } from './services/githubService';
 
 const Search = () => {
   const [username, setUsername] = useState('');
@@ -15,7 +15,7 @@ const Search = () => {
     setError('');
 
     try {
-      const data = await fetchAdvancedSearch({ username, location, minRepos });
+      const data = await fetchUserData({ username, location, minRepos });
       setResults(data.items); // Les résultats sont dans la propriété "items"
     } catch (err) {
       setError('Erreur lors de la recherche.');

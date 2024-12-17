@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = "https://api.github.com/search/users?q";
 
 // Fonction pour effectuer la recherche avancée
-export const fetchAdvancedSearch = async ({ username, location, minRepos }) => {
+export const fetchUserData = async ({ username, location, minRepos }) => {
   // Construction de la requête
   const query = [];
   if (username) query.push(username);
