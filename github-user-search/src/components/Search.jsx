@@ -17,7 +17,7 @@ const Search = () => {
     try {
       const data = await fetchUserData({ username, location, minRepos });
       if (data.items.length === 0) {
-        setError("Looks like we can't find the user");
+        setError("Looks like we cant find the user");
       }
       setResults(data.items); // Les résultats sont dans la propriété "items"
     } catch (err) {
