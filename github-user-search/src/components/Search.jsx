@@ -1,54 +1,67 @@
 import React, { useState } from 'react';
-import { fetchUserData } from './services/githubService';
+import { fetchAdvancedSearch } from './services/githubService';
 
 const Search = () => {
   const [username, setUsername] = useState('');
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState('');
+  const [minRepos, setMinRepos] = useState('');
+  const [results, setResults] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     setError('');
-    setUser(null);
 
     try {
-      const userData = await fetchUserData(username);
-      setUser(userData);
+      const data = await fetchAdvancedSearch({ username, location, minRepos });
+      setResults(data.items); // Les résultats sont dans la propriété "items"
     } catch (err) {
-      setError('Looks like we cant find the user.');
+      setError('Erreur lors de la recherche.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (username) handleSearch();
-  };
-
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        {/* Champs pour les critères de recherche */}
         <input
           type="text"
-          placeholder="Rechercher un utilisateur GitHub"
+          placeholder="Nom d'utilisateur"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Localisation"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Nombre minimum de dépôts"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
         />
         <button type="submit">Rechercher</button>
       </form>
 
-      {loading && <p>Loading...</p>}
+      {/* Affichage des résultats */}
+      {loading && <p>Chargement...</p>}
       {error && <p>{error}</p>}
-      {user && (
-        <div>
-          <img src={user.avatar_url} alt={`${user.login} avatar`} width="100" />
-          <h3>{user.name || user.login}</h3>
-          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-            Voir le profil GitHub
-          </a>
-        </div>
+      {results.length > 0 && (
+        <ul>
+          {results.map((user) => (
+            <li key={user.id}>
+              <p>{user.login}</p>
+              <p>{user.location || 'Localisation inconnue'}</p>
+              <a href={user.html_url}>Profil GitHub</a>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
